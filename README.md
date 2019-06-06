@@ -21,4 +21,4 @@ or
 data = h['data1'][()]
 ```
 
-To get the data. 
+To get the data. The search function supports [regular expressions](https://docs.python.org/3/library/re.html).
