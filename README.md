@@ -22,3 +22,11 @@ data = h['data1'][()]
 ```
 
 To get the data. The search function supports [regular expressions](https://docs.python.org/3/library/re.html).
+
+The usual methods of 
+```h.keys()```
+and
+```h.item()```
+return lists of keys and lists of (key, dataset) pairs, but one can additionally filtered by passing a getkey argument to the function as
+```h.keys(getkey='data1')```.
+
