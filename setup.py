@@ -8,5 +8,5 @@ setup(name='h5file',
       author_email='mdean@bnl.gov',
       packages=['h5file'],
       license='MIT',
-      requires=['h5py'],
+      requires=['h5py', 're'],
       zip_safe=False)

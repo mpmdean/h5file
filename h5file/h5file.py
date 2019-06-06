@@ -1,4 +1,5 @@
 import h5py
+import re
 
 class h5file:
     """Container for h5file providing views of the keys and loading
@@ -14,6 +15,12 @@ class h5file:
         """
         f = h5py.File(filename, 'r')
 
+        self.filename = filename
+        self.f = f
+
+
+    def populate_keys(self):
+        """Get the full set of keys in the h5file"""
         keys = []
         path = []
         def walk_groups(group):
@@ -26,12 +33,9 @@ class h5file:
                     path.pop()
             return
         
-        walk_groups(f)
-
-        self.filename = filename
-        self.f = f
+        walk_groups(self.f)
         self.keys = keys
-
+        
         
     def matchkeys(self, getkey):
         """Find all keys that match the requested key
@@ -40,13 +44,17 @@ class h5file:
         ----------
         getkey : string
             key pattern to search for
+            regular expressions 
             
         Returns
         -------
         matching_keys : list of key string
             The keys that match what is requested.
         """
-        return [key for key in self.keys if getkey in key]
+        if hasattr(self, 'keys') is False:
+            populate_keys(self)
+            
+        return [key for key in self.keys if re.search(getkey, key)]
 
     
     def index(self, key):
@@ -65,6 +73,10 @@ class h5file:
         ds : h5py dataset
             The dataset associated with the key
             use ds[()] to extract the data."""
+        try:
+            return self.f[key]
+        except KeyError:
+            continue
         matching_keys = self.matchkeys(key)
         if len(matching_keys) == 1:
             return self.f[matching_keys[0]]
@@ -83,6 +95,8 @@ class h5file:
         description : string
                 description
         """
+        if hasattr(self, 'keys') is False:
+            populate_keys(self)
         description = 'Filename is: {} \nKeys are:\n'.format(self.filename)
         description += "\n".join(self.keys) + '\n'
         return description
