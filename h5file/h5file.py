@@ -27,9 +27,10 @@ class h5file:
                 if isinstance(obj, h5py.Dataset):
                     all_keys.append("/".join(path_list + [key]))
                 else:
-                    path_list.append(key)
-                    walk_groups(obj)
-                    path_list.pop()
+                    if obj is not None:
+                        path_list.append(key)
+                        walk_groups(obj)
+                        path_list.pop()
             return
         
         walk_groups(self.f)
