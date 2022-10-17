@@ -1,6 +1,7 @@
 import h5py
 import re
 
+
 class h5file:
     """Container for h5file providing easier access to see the keys
     and loading based on partially matched keys
@@ -34,8 +35,8 @@ class h5file:
         
         walk_groups(self.f)
         self.all_keys = all_keys
-        
-        
+
+
     def keys(self, getkey=''):
         """Find all keys that match the requested key
         
@@ -54,16 +55,16 @@ class h5file:
         """
         if hasattr(self, 'all_keys') is False:
             self.populate_keys()
-        
+
         if getkey == '':
             matching_keys = self.all_keys
         else:
             matching_keys = [key for key in self.all_keys
-                    if re.search(getkey, key)]
-        
+                             if re.search(getkey, key)]
+
         return matching_keys
 
-    
+
     def index(self, getkey):
         """
         Try to return the dataset associated with a key.
@@ -94,6 +95,7 @@ class h5file:
                                                          matching_keys))
         elif len(matching_keys) == 0:
             raise Exception("{} not found".format(key))
+
 
     def items(self, getkey=''):
         """
@@ -128,14 +130,24 @@ class h5file:
         description = 'Filename is: {} \nKeys are:\n'.format(self.filename)
         description += "\n".join(self.keys()) + '\n'
         return description
- 
+
+
     def __str__(self):
         """Show description."""
         return self.get_description()
 
+
     def __repr__(self):
         """Show description."""
         return self.get_description()
+
+
+    def _ipython_key_completions_(self):
+        """Enable tab completion when indexing keys."""
+        if hasattr(self, 'all_keys') is False:
+            self.populate_keys()
+        return self.all_keys
+        
     
     def __getitem__(self, key):
         """Associate [] with indexing."""
