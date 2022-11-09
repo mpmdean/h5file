@@ -1,7 +1,7 @@
 # h5file
 Wrapper for h5py allowing lazy indexing and straightfoward discovery of the keys.  
 
-This is conveneint for exploring files in the usual case where the number of different datasets isn't too large. This is especially convenient when the h5 file contains links, which aren't fully explored by the default ```h5py.visit``` and ```h5py.visititems``` methods. 
+This is useful for exploring files in the usual case where the number of different datasets isn't too large. This is especially convenient when the h5 file contains links, which aren't fully explored by the default ```h5py.visit``` and ```h5py.visititems``` methods. 
 
 ```
 from h5file import h5file
@@ -19,6 +19,11 @@ hdfdataset = h['data1']
 or 
 ```
 data = h['data1'][()]
+```
+
+Within IPython, you can use tab completion to explore the keys using an expression like
+```
+h['dat+TAB
 ```
 
 To get the data. The search function supports [regular expressions](https://docs.python.org/3/library/re.html).

@@ -153,4 +153,11 @@ class h5file:
     def __getitem__(self, key):
         """Associate [] with indexing."""
         return self.index(key)
+
+
+    def _ipython_key_completions_(self):
+        """Tab completions for key."""
+        if hasattr(self, 'all_keys') is False:
+            self.populate_keys()
+        return self.all_keys
     
